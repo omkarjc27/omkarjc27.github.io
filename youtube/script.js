@@ -43,7 +43,7 @@ class BottomBar extends React.Component {
       React.createElement("div", { className: "inbox" },
       React.createElement("a", { href: "#" },
       React.createElement("img", { src: "https://d30y9cdsu7xlg0.cloudfront.net/png/1677613-200.png", alt: "home" }),
-      React.createElement("p", null, "Inbox"))),
+      React.createElement("p", null, "Useless Feature"))),
 
 
       React.createElement("div", { className: "library" },
@@ -75,7 +75,7 @@ class Posts extends React.Component {
       React.createElement("p", { className: "username" }, this.props.username, " \xB7 ", this.props.views, " \xB7 ", this.props.timePosted))),
 
 
-      React.createElement("hr", { className: "divider" })));
+      React.createElement("p", { className: "divider" })));
 
 
   }}
@@ -87,12 +87,13 @@ class MyInput extends React.Component {
       React.createElement("div", { className: "console" },
       React.createElement("div", { className: "screen" },
       React.createElement(TopBar, null),
-      React.createElement(Posts, { videoImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRviATU397zWIcuAAsNhPDrGRtbmy-SY-uaZIGDYC2f95fNV_Ev", userImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLK0bUKIQe_qhTfFQQ64krBfSWew_VG2uWG1kxPe15GpKrNe6_rQ", videoTitle: "Do you like Jeeps?", username: "Diego", views: "12 views", timePosted: "2 mins ago" }),
-      React.createElement(Posts, { videoImg: "https://code.visualstudio.com/assets/docs/nodejs/reactjs/extra-semi-error.png", userImg: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K", videoTitle: "How React is changing the world", username: "ReactJs", views: "1k views", timePosted: "4 days ago" }),
-      React.createElement(Posts, { videoImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTcQBZLAUzrOXmD3ivBElKpQnrDmlSm9e9UjxP35X2MW4DggxYnA", userImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbYa0Us9u8V22NMZmtyG1tFRjT93Ms0TWW3je0LlQGz9jW-tNirA", videoTitle: "Is KD the GOAT?", username: "NBA", views: "12m views", timePosted: "1 month ago" }),
-      React.createElement(Posts, { videoImg: "https://dy98q4zwk7hnp.cloudfront.net/1969-Chevrolet-Camaro-Muscle%20&%20Pony%20Cars--Car-100886573-eb4a4b3bd67913a5fbac3352034925ee.jpg?w=1280&h=720&r=thumbnail&s=1", userImg: "https://wallpapercave.com/wp/1DcAB24.jpg", videoTitle: "Chevy 69 you will never get bored of this beast", username: "Chevy", views: "1m views", timePosted: "2 months ago" }),
-      React.createElement(Posts, { videoImg: "https://nebula.wsimg.com/obj/RjUyMTk4NDMyOEIyRjZDRkU1MzA6MmVlYWJmMTEyNmQwNWI5ZmUwODBkMmFlMDA5MDg5ZmY6Ojo6OjA=", userImg: "https://nebula.wsimg.com/obj/RjUyMTk4NDMyOEIyRjZDRkU1MzA6ZDQ4ZWVkNzM4OTIxMmMxNjc0MGNlZTU5ODU0YWM1YjY6Ojo6OjA=", videoTitle: "0-60 in 2 seconds??", username: "Import Drag", views: "2m views", timePosted: "3 months ago" }),
-      React.createElement(Posts, { videoImg: "https://i.ytimg.com/vi/UZjgD-xTz9Q/maxresdefault.jpg", userImg: "https://cdn.shopify.com/s/files/1/0747/3829/products/mGR0304_1024x1024.jpeg?v=1485013802", videoTitle: "Buying my dream car at 25!!", username: "Nr32", views: "30m views", timePosted: "4 months ago" })),
+      React.createElement(Posts, { videoImg: "fuckdisney.jpeg", userImg: "https://cdn.vox-cdn.com/thumbor/AwKSiDyDnwy_qoVdLPyoRPUPo00=/39x0:3111x2048/1400x1400/filters:focal(39x0:3111x2048):format(png)/cdn.vox-cdn.com/uploads/chorus_image/image/49901753/netflixlogo.0.0.png", videoTitle: "A Netflix Trailer ", username: "Netflix", views: "2M views", timePosted: "2 mins ago" }),
+      React.createElement(Posts, { videoImg: "https://i.ytimg.com/vi/eWa49R6bOnU/maxresdefault.jpg", userImg: "https://assets.change.org/photos/6/wy/fc/tdwyFCitwdHidPu-800x450-noPad.jpg?1527368113", videoTitle: "Youtuber reacting to a Youtuber who is reacting to another Youtuber on YouTube", username: "Someone Reacts", views: "12k views", timePosted: "2 years ago" }),
+      React.createElement(Posts, { videoImg: "https://moroccanladies.com/wp-content/uploads/2015/10/funny-men-trying-on-makeup-by-fo.jpg", userImg: "https://www.seattleglobalist.com/wp-content/uploads/2016/03/viv.jpg", videoTitle: "Genetically gifted model, sets unachievable standard for beauty.", username: "Generic model name", views: "1k views", timePosted: "4 days ago" }),
+      React.createElement(Posts, { videoImg: "https://static.bangkokpost.com/media/content/20181211/c1_1591642.jpg", userImg: "https://shubhankarccom.files.wordpress.com/2018/05/donald-trump-uncle-sam-prints.jpg?w=825", videoTitle: "FakeNews about how iPhones are causing CoronaVirus", username: "Trump 2024", views: "1M views", timePosted: "1 month ago" }),
+      React.createElement(Posts, { videoImg: "https://i.pcmag.com/imagery/lineups/06TJIcNcLhAyP9GT8Wfz831-1..v_1569492952.jpg", userImg: "https://i.pinimg.com/originals/26/5e/9c/265e9c8ced119bf039ec739b1da174f4.jpg", videoTitle: "An exciting part of my life with an Upbeat background music.", username: "Vlogger's Name", views: "23M views", timePosted: "1 year ago" }),
+      React.createElement(Posts, { videoImg: "https://www.altnews.in/wp-content/uploads/2019/11/Untitled-design-2019-11-09T170531.181.jpeg", userImg: "https://media3.s-nbcnews.com/j/newscms/2019_06/2746941/190208-stock-money-fanned-out-ew-317p_fa445b2f6f3e86a3ffa18707e6a8adcb.fit-760w.jpg", videoTitle: "Stuff You can't afford in your lifetime.", username: "Momentary Inspiration", views: "(Poor ppl) views", timePosted: "2 months ago" }),
+      React.createElement(Posts, { videoImg: "https://images.thestar.com/UMCchGMskVdVTKUy32WKiFBqx1A=/1200x760/smart/filters:cb(2700061000)/https://www.thespec.com/content/dam/thespec/news/world/2015/12/03/100-000-people-want-youtube-to-ban-sam-pepper-for-best-friend-murder-prank/B822235529Z.1_20151203073240_000_G2C1JFN8P.1_Gallery.jpg", userImg: "https://image.freepik.com/free-vector/comic-speech-bubble-cartoon-word-prank_9640-169.jpg", videoTitle: "I pranked someone by almost killing them", username: "Self Declared Prankster", views: "30m views", timePosted: "4 months ago" })),
 
 
       React.createElement(BottomBar, null)));
