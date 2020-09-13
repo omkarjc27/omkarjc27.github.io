@@ -1,6 +1,6 @@
 var data = {
 	"me":false,
-	"following":false,
+	"following":true,
 	"username" : "false",
 	"n_tales" : "100K",
 	"followers" : "237M",
@@ -53,7 +53,11 @@ function LoadProfile() {
 	username.innerHTML = data["username"]
 	n_tales.innerHTML = data["n_tales"]
 	followers.innerHTML = data["followers"]
-
+	if(data["following"]) {
+		f_button.innerHTML = "Following"
+	} else {
+		f_button.innerHTML = "Follow +"
+	}
 
 	var tales_html = ''
 	for (var i = 0; i < data["tales"].length; i++) {	
