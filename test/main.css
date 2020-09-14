@@ -242,9 +242,9 @@ hr{margin: 0px;}
 #nextBar {width: 1%;height: 3px;background-color: #66fcf1;}
 .logo {text-decoration: none;font-family: 'Bangers', cursive;font-size: 28px;color:#00ffff/*#45a29e*/;text-shadow: 2px 2px #d9d9d9;-webkit-text-stroke: 1px black;}
 .next-button{width: 100%;margin-top:6px;border: solid 1px #66fcf1;}
-.back {background-color: #0c0d0d;color: white;}
-.nohov{background-color: #0b0c10;border: none;color: white;text-align: center;text-decoration: none;display: inline-block;font-size: 24px;margin: 4px 30px;cursor: pointer;}
-.tab-top {background-color: #0b0c10;color: white;}
+.back {background-color: #181b1b;color: white;}
+.nohov{background-color: #181b1b;border: none;color: white;text-align: center;text-decoration: none;display: inline-block;font-size: 24px;margin: 4px 30px;cursor: pointer;}
+.tab-top {background-color: #181b1b;color: white;}
 .typename{font-size: 3.5vh;}
 .item{font-size: 2.5vh;}
 .data{margin: 10px;font-size: 2vh;color: grey;}
