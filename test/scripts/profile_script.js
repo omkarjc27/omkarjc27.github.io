@@ -1,5 +1,5 @@
 var data = {
-	"me":false,
+	"me":true,
 	"following":true,
 	"username" : "false",
 	"n_tales" : "100K",
@@ -60,15 +60,20 @@ function LoadProfile() {
 	}
 
 	var tales_html = ''
-	for (var i = 0; i < data["tales"].length; i++) {	
-		tales_html += '<div class="w3-card w3-padding w3-round-xlarge w3-black w3-margin"><span class="w3-xlarge">'+data["tales"][i]["name"]+'</span><br><span class="w3-small w3-text-grey" style="border:none;padding: 0px">'+data["tales"][i]["views"]+' views</span><span style="font-size: 15px;margin-left: 2px;margin-right: 2px"><b> &#183; </b></span><span class="w3-small w3-text-grey" style="padding: 0px">'+data["tales"][i]["likes"]+' likes</span>'
+	for (var i = 0; i < data["tales"].length; i++) {
+		if(data['tales'][i]['public']==false && data['me']){
+			tales_html += '<div class="w3-card w3-padding w3-round-large w3-black w3-margin"><span class="w3-large">'+data["tales"][i]["name"]+'<span class="w3-text-grey w3-medium"> (hidden)</span>'
+		} else {
+			tales_html += '<div class="w3-card w3-padding w3-round-large w3-black w3-margin"><span class="w3-large">'+data["tales"][i]["name"]
+		}
+		tales_html += '</span><br><span class="w3-small w3-text-grey" style="border:none;padding: 0px">'+data["tales"][i]["views"]+' views</span><span style="font-size: 15px;margin-left: 2px;margin-right: 2px;" class="w3-text-grey"><b> &#183; </b></span><span class="w3-small w3-text-grey" style="padding: 0px">'+data["tales"][i]["likes"]+' likes</span>'
 		if(data["me"]) {
-			tales_html += '<br><a href=""><i class="fa fa-share-alt w3-medium w3-margin-top"></i> Share</a>'
-			tales_html+='<a href=""><i class="fa fa-pencil w3-medium w3-margin-left w3-margin-top"></i> Edit</a>'
-			if(data["tales"][i]["public"]){				
-				tales_html+='<a href=""><i class="fa fa-eye-slash w3-medium w3-margin-left w3-margin-top"></i> Make Private</a>'
+			tales_html += '<br><a href=""><i class="fa fa-share-alt w3-medium w3-margin-top w3-text-grey"></i> Share</a>'
+			tales_html+='<a href=""><i class="fa fa-pencil w3-medium w3-margin-left w3-margin-top w3-text-grey"></i> Edit</a>'
+			if(data["tales"][i]["public"]){
+				tales_html+='<a href=""><i class="fa fa-eye-slash w3-medium w3-margin-left w3-margin-top w3-text-grey"></i> Hide</a>'
 			} else {
-				tales_html+='<a href=""><i class="fa fa-eye w3-medium w3-margin-left w3-margin-top"></i> Make Public</a>'
+				tales_html+='<a href=""><i class="fa fa-eye w3-medium w3-margin-left w3-margin-top w3-text-grey"></i> Unhide</a>'
 			}
 		} else {
 			tales_html += '<br><a href=""><i class="fa fa-share-alt w3-medium w3-margin-top"></i> Share</a>'

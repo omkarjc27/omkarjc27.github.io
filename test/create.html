@@ -19,92 +19,34 @@
 			<div>
 
 				<!--Top Bar Start-->
-				<div style="height:15vh;max-width: 500px">
+				<div style="height:14vh;max-width: 500px">
 					<div class="back w3-padding" style="text-align: left;">
-						<input type="" name="" placeholder="Tale Name" class="w3-input w3-xlarge w3-round-large" style="background-color:#1f2833;border: none;color:white">
-						<button class="next-button w3-button w3-hover-black" style="width: 49%;">
-							Save as Draft
+						<input id="tale_name" type="text" placeholder="Tale Name" class="w3-input w3-medium w3-round-large" style="background-color:#1f2833;border: none;color:white" value="" onkeyup="EditTaleName(this.value);">
+						<button class="next-button w3-button w3-hover-black w3-small" style="width: 49%;">
+							<i class="fa fa-save"></i> Save as Draft
 						</button>
-						<button class="next-button w3-button w3-hover-black" style="width: 49%;">
-							Post
+						<button class="next-button w3-button w3-hover-black w3-small" style="width: 49%;">
+							<i class="fa fa-share-alt"></i> Share 
 						</button>
 					</div>
 				</div>
 				<!--Top Bar End-->
 				
 							
-				<div style="height: 73vh;overflow-x: scroll;white-space: nowrap;overflow-y: hidden;" class="scroll">
+				<!--Tale Space Start-->
+				<div id="tale_space" style="height: 76vh;overflow-x: scroll;white-space: nowrap;overflow-y: hidden;" class="scroll"></div>
+				<!--Tale Space End-->
+				
 
-					<div class="w3-black w3-round-xlarge w3-margin" style="height:71vh;max-width: 500px;min-width: 270px;white-space: normal; display: inline-block;">
-						<span id="tale_writer" class="w3-small" style="height: 2vh;">Page No 1</span>
-						<div id="page_media" style="height:50vh;font-size: 2.7vh" class="w3-padding">
-						</div>
-						<div style="height: 18vh">
-							<div id="next_buttons" class="w3-margin-right w3-margin-left w3-row w3-large" style="text-align: left">
-								<button class="next-button w3-black w3-hover-black">Button 1</button>
-								<button class="next-button w3-black w3-hover-black">Button 1</button>
-							</div>
-						</div>
-					</div>
-
-					<div class="w3-black w3-round-xlarge w3-margin" style="height:71vh;max-width: 500px;min-width: 270px;white-space: normal; display: inline-block;">
-						<span id="tale_writer" class="w3-small" style="height: 2vh;">Page No 1</span>
-						<div id="page_media" style="height:50vh;font-size: 2.7vh" class="w3-padding">
-						</div>
-						<div style="height: 18vh">
-							<div id="next_buttons" class="w3-margin-right w3-margin-left w3-row w3-large" style="text-align: left">
-								<button class="next-button w3-black w3-hover-black">Button 1</button>
-								<button class="next-button w3-black w3-hover-black">Button 1</button>
-							</div>
-						</div>
-					</div>
-
-					<div class="w3-black w3-round-xlarge w3-margin" style="height:71vh;max-width: 500px;min-width: 270px;white-space: normal; display: inline-block;">
-						<span id="tale_writer" class="w3-small" style="height: 2vh;">Page No 1</span>
-						<div id="page_media" style="height:50vh;font-size: 2.7vh" class="w3-padding">
-						</div>
-						<div style="height: 18vh">
-							<div id="next_buttons" class="w3-margin-right w3-margin-left w3-row w3-large" style="text-align: left">
-								<button class="next-button w3-black w3-hover-black">Button 1</button>
-								<button class="next-button w3-black w3-hover-black">Button 1</button>
-							</div>
-						</div>
-					</div>
-
-					<div class="w3-black w3-round-xlarge w3-margin" style="height:71vh;max-width: 500px;min-width: 270px;white-space: normal; display: inline-block;">
-						<span id="tale_writer" class="w3-small" style="height: 2vh;">Page No 1</span>
-						<div id="page_media" style="height:50vh;font-size: 2.7vh" class="w3-padding">
-						</div>
-						<div style="height: 18vh">
-							<div id="next_buttons" class="w3-margin-right w3-margin-left w3-row w3-large" style="text-align: left">
-								<button class="next-button w3-black w3-hover-black">Button 1</button>
-								<button class="next-button w3-black w3-hover-black">Button 1</button>
-							</div>
-						</div>
-					</div>
-
-					<div class="w3-black w3-round-xlarge w3-margin" style="height:71vh;max-width: 500px;min-width: 270px;white-space: normal; display: inline-block;">
-						<span id="tale_writer" class="w3-small" style="height: 2vh;">Page No 1</span>
-						<div id="page_media" style="height:50vh;font-size: 2.7vh" class="w3-padding">
-						</div>
-						<div style="height: 18vh">
-							<div id="next_buttons" class="w3-margin-right w3-margin-left w3-row w3-large" style="text-align: left">
-								<button class="next-button w3-black w3-hover-black">Button 1</button>
-								<button class="next-button w3-black w3-hover-black">Button 1</button>
-							</div>
-						</div>
-					</div>
-
-				</div>
-				<div style="height: 2vh"></div>
 				<!--Menu Bar Start-->
 				<div class="w3-padding" style="height:5vh;color: #c5c6c7;border-top:1px solid #1a1a1a;max-width: 500px;">
 					<a class="w3-left nohov" href="search.html"><i class="fa fa-search"></i></a>
 					<a class="w3-center nohov" href="profile.html"><i class="fa fa-user-circle-o"></i></a>
-					<a class="w3-right nohov" href="create.html"><i class="fa fa-pencil-square-o"></i></a>
+					<a class="w3-right nohov" href="create.html"><i class="fa fa-pencil"></i></a>
 				</div>
 				<!--Menu Bar End-->
 			</div>
 		</center>	
 	</body>
+	<script type="text/javascript" src="scripts/creator_script.js"></script>
 </html>
