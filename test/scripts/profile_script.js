@@ -2,7 +2,6 @@ var data = {
 	"me":true,
 	"following":true,
 	"username" : "false",
-	"n_tales" : "100K",
 	"followers" : "237M",
 	"tales" : [
 		{
@@ -58,7 +57,7 @@ function LoadProfile() {
 	} else {
 		f_button.innerHTML = "Follow +"
 	}
-
+	n_tales.innerHTML = data["tales"].length
 	var tales_html = ''
 	for (var i = 0; i < data["tales"].length; i++) {
 		if(data['tales'][i]['public']==false && data['me']){

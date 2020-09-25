@@ -38,7 +38,7 @@ function InitialRender() {
 				space += '<span class="fu-label" onclick="UpdateMedia('+data['tale'][i]['id']+',0)"><i class="fa fa-font w3-medium"></i><br>Text </span><label class="fu-label" for="'+data['tale'][i]['id']+'_0" ><i class="fa fa-image w3-medium"></i><br>Image</label><input id="'+data['tale'][i]['id']+'_0" class="fu-input" type="file" onchange="UpdateMedia('+data['tale'][i]['id']+',1)" accept="image/*"><label for="'+data['tale'][i]['id']+'_1" class="fu-label"><i class="fa fa-film w3-medium"></i><br>Video</label><input id="'+data['tale'][i]['id']+'_1" class="fu-input" type="file" onchange="UpdateMedia('+data['tale'][i]['id']+',2)" accept="video/*">'
 				break;
 			case 0:
-				space += '<textarea placeholder="Page Text ..." class="content-text w3-medium">'+data['tale'][i]['media']+'</textarea>';
+				space += '<textarea placeholder="Page Text ..." class="content-text w3-medium" maxlength="144">'+data['tale'][i]['media']+'</textarea>';
 				break;
 			case 1:
 				space += '<img src="'+data['tale'][i]['media']+'" style="max-height:100%;max-width:100%;" class="w3-animate-opacity">';
@@ -160,7 +160,7 @@ function UpdateMedia(id,type){
 	}
 	switch(type){
 		case 0:
-			page_media.innerHTML = '<textarea placeholder="Page Text ..." class="content-text w3-medium"></textarea>';
+			page_media.innerHTML = '<textarea placeholder="Page Text ..." class="content-text w3-medium" maxlength="144"></textarea>';
 			
 			break;
 		case 1:
