@@ -62,3 +62,4 @@ function Search(val){
 	}
 	
 }
+window.scrollTo(0,1);

@@ -4,7 +4,6 @@ var data = {
 	"username" : "false",
 	"followers" : "237M",
 	"tales" : [
-		/*
 		{
 			"name":"tale_name1",
 			"views" : "34",
@@ -40,7 +39,7 @@ var data = {
 			"views" : "18",
 			"likes" : "14",
 			"public" : true,
-		},*/
+		},
 	]
 };
 var username = document.getElementById("username");
@@ -87,3 +86,4 @@ function LoadProfile() {
 	tales.innerHTML = tales_html
 }
 LoadProfile()
+window.scrollTo(0,1);

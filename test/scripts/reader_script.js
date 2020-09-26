@@ -109,9 +109,9 @@ function NextTimer(){
 		}
 	}
 }
-/*
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
+const product = urlParams.get('a')
 var ourRequest = new XMLHttpRequest();
 ourRequest.open('GET', 'https://learnwebcode.github.io/tales/'+urlParams.get('tale'));
 ourRequest.onload = function() {
@@ -120,6 +120,7 @@ ourRequest.onload = function() {
 	} else {
 		console.log("We connected to the server, but it returned an error.");
 	}
-}*/
+}
 renderTale();
 renderPage(0);
+window.scrollTo(0,1);
