@@ -4,6 +4,7 @@ var data = {
 	"username" : "false",
 	"followers" : "237M",
 	"tales" : [
+		/*
 		{
 			"name":"tale_name1",
 			"views" : "34",
@@ -39,7 +40,7 @@ var data = {
 			"views" : "18",
 			"likes" : "14",
 			"public" : true,
-		},
+		},*/
 	]
 };
 var username = document.getElementById("username");
@@ -79,6 +80,9 @@ function LoadProfile() {
 		}
 		
 		tales_html += '</div>'
+	}
+	if (data["tales"].length==0){
+		tales_html = '<div class="w3-center"><span>You have not written any Tales</span><br><a href="create.html" class="w3-button next-button w3-hover-black w3-round-large w3-xlarge" style="padding: 0px 4px;margin-top: 10px;width:70%;"><b> Create A Tale</b></a></div>'
 	}
 	tales.innerHTML = tales_html
 }

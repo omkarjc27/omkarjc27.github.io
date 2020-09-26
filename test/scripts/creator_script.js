@@ -1,6 +1,7 @@
 var data = {
 	"tale_name":null,
 	"hidden":true,
+	"tale_writer" : "Writer Name",
 	"tale" : [
 		{
 			"id":1,

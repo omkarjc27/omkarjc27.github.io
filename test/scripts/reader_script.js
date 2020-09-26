@@ -1,6 +1,7 @@
 var data = {
 	"tale_name":"Tale_Name",
 	"tale_like" : false,
+	"hidden":true,
 	"tale_writer" : "Writer Name",
 	"writer_following" : false,
 	"tale" : [
