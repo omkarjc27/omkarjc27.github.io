@@ -123,4 +123,4 @@ ourRequest.onload = function() {
 }
 renderTale();
 renderPage(0);
-window.scrollTo(0,1);
+window.scrollTo(0,0);

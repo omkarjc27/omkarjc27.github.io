@@ -189,6 +189,6 @@ function UpdateMedia(id,type){
 	}
 	
 }
-window.scrollTo(0,1);
 InitialRender()
 LoadNextBtns()
+window.scrollTo(0,0);
