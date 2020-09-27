@@ -4,9 +4,7 @@ function SignUp() {
 	var u_name = form[1].value
 	var password = form[2].value
 
-	console.log({ "email": email, "u_name": u_name, "pass": password})
 	var ourRequest = new XMLHttpRequest();
-	/*
 	ourRequest.open('POST', 'https://api-snowglobe.herokuapp.com/signup/');
 	ourRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 	ourRequest.send(JSON.stringify({ "email": email, "u_name": u_name, "pass": password}));
@@ -26,7 +24,7 @@ function SignUp() {
 		} else {
 			console.log("We connected to the server, but it returned an error.");
 		}
-	}*/
+	}
 }
 
 function CheckMail(inp) {
