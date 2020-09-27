@@ -39,6 +39,7 @@ function CheckMail(inp) {
 	ourRequest.onload = function() {
 		if (ourRequest.status >= 200 && ourRequest.status < 400) {
 			var data = JSON.parse(ourRequest.responseText);
+			console.log(data)
 			if (data==false){
 				e_disp.innerHTML = "Email Address already in use."
 			} else {
@@ -59,6 +60,7 @@ function CheckUname(inp) {
 	ourRequest.onload = function() {
 		if (ourRequest.status >= 200 && ourRequest.status < 400) {
 			var data = JSON.parse(ourRequest.responseText);
+			console.log(data)
 			if (data==false){
 				e_disp.innerHTML = "Username already taken."
 			} else {
