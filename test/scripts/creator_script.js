@@ -191,4 +191,3 @@ function UpdateMedia(id,type){
 }
 InitialRender()
 LoadNextBtns()
-window.scrollTo(0,0);

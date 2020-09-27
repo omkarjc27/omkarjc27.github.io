@@ -86,4 +86,3 @@ function LoadProfile() {
 	tales.innerHTML = tales_html
 }
 LoadProfile()
-window.scrollTo(0,0);
