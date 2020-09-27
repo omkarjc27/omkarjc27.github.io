@@ -5,7 +5,7 @@ function SignUp() {
 	var password = form[2].value
 
 	var ourRequest = new XMLHttpRequest();
-	ourRequest.open('POST', 'https://api-snowglobe.herokuapp.com/CheckMail/');
+	ourRequest.open('POST', 'https://api-snowglobe.herokuapp.com/forms/signup/');
 	ourRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 	ourRequest.send(JSON.stringify({ "email": email, "u_name": u_name, "pass": password}));
 	ourRequest.onload = function() {
