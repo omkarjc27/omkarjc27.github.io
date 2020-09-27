@@ -4,12 +4,14 @@ function SignUp() {
 	var u_name = form[1].value
 	var password = form[2].value
 
+	console.log({ "email": email, "u_name": u_name, "pass": password})
 	var ourRequest = new XMLHttpRequest();
-	ourRequest.open('POST', 'https://api-snowglobe.herokuapp.com/forms/signup/');
+	ourRequest.open('POST', 'https://api-snowglobe.herokuapp.com/signup/');
 	ourRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 	ourRequest.send(JSON.stringify({ "email": email, "u_name": u_name, "pass": password}));
 	ourRequest.onload = function() {
 		if (ourRequest.status >= 200 && ourRequest.status < 400) {
+			console.log(data)
 			var data = JSON.parse(ourRequest.responseText);
 			if (data=="E"){
 				var e_disp = document.getElementById("mail_e")
@@ -27,7 +29,6 @@ function SignUp() {
 }
 
 function CheckMail(inp) {
-	console.log(inp.value)
 	var e_disp = document.getElementById("mail_e")
 
 	var ourRequest = new XMLHttpRequest();
@@ -37,6 +38,7 @@ function CheckMail(inp) {
 	ourRequest.onload = function() {
 		if (ourRequest.status >= 200 && ourRequest.status < 400) {
 			var data = JSON.parse(ourRequest.responseText);
+			console.log(data)
 			if (data==false){
 				e_disp.innerHTML = "Email Address already in use."
 			} else {
@@ -49,7 +51,6 @@ function CheckMail(inp) {
 }
 
 function CheckUname(inp) {
-	console.log(inp.value)
 	var e_disp = document.getElementById("name_e")
 	var ourRequest = new XMLHttpRequest();
 	ourRequest.open('POST', 'https://api-snowglobe.herokuapp.com/CheckUname/');
@@ -58,6 +59,7 @@ function CheckUname(inp) {
 	ourRequest.onload = function() {
 		if (ourRequest.status >= 200 && ourRequest.status < 400) {
 			var data = JSON.parse(ourRequest.responseText);
+			console.log(data)
 			if (data==false){
 				e_disp.innerHTML = "Username already taken."
 			} else {
