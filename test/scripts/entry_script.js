@@ -10,7 +10,6 @@ function SignUp() {
 	ourRequest.send(JSON.stringify({ "email": email, "u_name": u_name, "pass": password}));
 	ourRequest.onload = function() {
 		if (ourRequest.status >= 200 && ourRequest.status < 400) {
-			console.log(data)
 			var data = JSON.parse(ourRequest.responseText);
 			if (data=="E"){
 				var e_disp = document.getElementById("mail_e")
@@ -18,26 +17,9 @@ function SignUp() {
 			} else if (data=="U") {
 				var e_disp = document.getElementById("name_e")
 				e_disp.innerHTML = "Username already taken."
-			} else if (data==true) {
-				var ourRequest = new XMLHttpRequest();
-				ourRequest.open('POST', 'https://api-snowglobe.herokuapp.com/login/');
-				ourRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-				ourRequest.send(JSON.stringify({ "u_name": u_name, "pass": password}));
-				ourRequest.onload = function() {
-					if (ourRequest.status >= 200 && ourRequest.status < 400) {
-						var data = JSON.parse(ourRequest.responseText);
-						console.log(data)
-						if (data==false){
-							console.log("Login Failed")
-						} else {
-							window.location.href = "https://api-snowglobe.herokuapp.com/Users/"+u_name;
-						}
-					} else {
-						console.log("We connected to the server, but it returned an error.");
-					}
-				}				
 			} else {
-				console.log("Sign Up Failed")
+				window.localStorage.setItem("Snow_Globe_User_ID", data);
+				window.location.href = "profile.html?user="+u_name;
 			}
 		} else {
 			console.log("We connected to the server, but it returned an error.");
@@ -55,7 +37,6 @@ function CheckMail(inp) {
 	ourRequest.onload = function() {
 		if (ourRequest.status >= 200 && ourRequest.status < 400) {
 			var data = JSON.parse(ourRequest.responseText);
-			console.log(data)
 			if (data==false){
 				e_disp.innerHTML = "Email Address already in use."
 			} else {
@@ -76,7 +57,6 @@ function CheckUname(inp) {
 	ourRequest.onload = function() {
 		if (ourRequest.status >= 200 && ourRequest.status < 400) {
 			var data = JSON.parse(ourRequest.responseText);
-			console.log(data)
 			if (data==false){
 				e_disp.innerHTML = "Username already taken."
 			} else {
@@ -89,27 +69,23 @@ function CheckUname(inp) {
 }
 
 function Login() {
-	var form = document.getElementById("signup").getElementsByClassName("text-ip")
-	var email = form[0].value
-	var u_name = form[1].value
-	var password = form[2].value
+	var form = document.getElementById("login").getElementsByClassName("text-ip")
+	var u_name = form[0].value
+	var password = form[1].value
 
 	var ourRequest = new XMLHttpRequest();
-	ourRequest.open('POST', 'https://api-snowglobe.herokuapp.com/signup/');
+	ourRequest.open('POST', 'https://api-snowglobe.herokuapp.com/login/');
 	ourRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-	ourRequest.send(JSON.stringify({ "email": email, "u_name": u_name, "pass": password}));
+	ourRequest.send(JSON.stringify({ "u_name": u_name, "pass": password}));
 	ourRequest.onload = function() {
 		if (ourRequest.status >= 200 && ourRequest.status < 400) {
-			console.log(data)
 			var data = JSON.parse(ourRequest.responseText);
-			if (data=="E"){
-				var e_disp = document.getElementById("mail_e")
-				e_disp.innerHTML = "Email Address already in use."
-			} else if (data=="U") {
-				var e_disp = document.getElementById("name_e")
-				e_disp.innerHTML = "Username already taken."
-			} else if (data==true) {
-				console.log("Signed Up")
+			if (data==false){
+				var e_disp = document.getElementById("log_e")
+				e_disp.innerHTML = "Wrong Username & Password Combination."
+			} else {
+				window.localStorage.setItem("Snow_Globe_User_ID", data);
+				window.location.href = "profile.html?user="+u_name;
 			}
 		} else {
 			console.log("We connected to the server, but it returned an error.");

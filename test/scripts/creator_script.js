@@ -36,7 +36,7 @@ function InitialRender() {
 
 		switch(data['tale'][i]['type']){
 			case null:
-				space += '<span class="fu-label" onclick="UpdateMedia('+data['tale'][i]['id']+',0)"><i class="fa fa-font w3-medium"></i><br>Text </span><label class="fu-label" for="'+data['tale'][i]['id']+'_0" ><i class="fa fa-image w3-medium"></i><br>Image</label><input id="'+data['tale'][i]['id']+'_0" class="fu-input" type="file" onchange="UpdateMedia('+data['tale'][i]['id']+',1)" accept="image/*"><label for="'+data['tale'][i]['id']+'_1" class="fu-label"><i class="fa fa-film w3-medium"></i><br>Video</label><input id="'+data['tale'][i]['id']+'_1" class="fu-input" type="file" onchange="UpdateMedia('+data['tale'][i]['id']+',2)" accept="video/*">'
+				space += '<span class="fu-label" onclick="UpdateMedia('+data['tale'][i]['id']+',0)"><i class="fa fa-font w3-medium"></i><br>Text </span><label class="fu-label" for="'+data['tale'][i]['id']+'_0" ><i class="fa fa-image w3-medium"></i><br>Image</label><input id="'+data['tale'][i]['id']+'_0" class="fu-input" type="file" onchange="UpdateMedia('+data['tale'][i]['id']+',1)" accept="image/*"><label for="'+data['tale'][i]['id']+'_1" class="fu-label"><i class="fa fa-film w3-medium"></i><br>Video</label><input id="'+data['tale'][i]['id']+'_1" class="fu-input" type="file" onchange="UpdateMedia('+data['tale'][i]['id']+',2)" accept="video/*"><br><span class="w3-small w3-text-red size_alert"></span>'
 				break;
 			case 0:
 				space += '<textarea placeholder="Page Text ..." class="content-text w3-medium" maxlength="144">'+data['tale'][i]['media']+'</textarea>';
@@ -131,7 +131,7 @@ function AddPage(id){
 	var new_page = '';
 	new_page += '<div id="'+counter+'" class="w3-black w3-round-large w3-margin" style="height:73vh;max-width: 400px;min-width: 270px;width:80vw;white-space: normal; display: inline-block;"><div style="height: 7vh;padding: 10px;"><a class="side-buttons w3-left" onclick="DeletePage('+counter+')" ><i class="fa fa-trash w3-xlarge w3-text-grey"></i><br>Delete Page</a><span class="w3-small w3-center page_no">Page No '+(index+2)+'</span><a class="side-buttons w3-right" onclick="AddPage('+counter+')"><i class="fa fa-plus w3-xlarge w3-text-grey"></i><br>New Page</a></div><div style="height:35vh;font-size: 2.7vh" class="w3-padding page_media">'
 
-	new_page +='<span class="fu-label" onclick="UpdateMedia('+counter+',0)"><i class="fa fa-font w3-medium"></i><br>Text </span><label class="fu-label" for="'+counter+'_0" ><i class="fa fa-image w3-medium"></i><br>Image</label><input id="'+counter+'_0" class="fu-input" type="file" onchange="UpdateMedia('+counter+',1)" accept="image/*"><label for="'+counter+'_1" class="fu-label"><i class="fa fa-film w3-medium"></i><br>Video</label><input id="'+counter+'_1" class="fu-input" type="file" onchange="UpdateMedia('+counter+',2)" accept="video/*">'
+	new_page +='<span class="fu-label" onclick="UpdateMedia('+counter+',0)"><i class="fa fa-font w3-medium"></i><br>Text </span><label class="fu-label" for="'+counter+'_0" ><i class="fa fa-image w3-medium"></i><br>Image</label><input id="'+counter+'_0" class="fu-input" type="file" onchange="UpdateMedia('+counter+',1)" accept="image/*"><label for="'+counter+'_1" class="fu-label"><i class="fa fa-film w3-medium"></i><br>Video</label><input id="'+counter+'_1" class="fu-input" type="file" onchange="UpdateMedia('+counter+',2)" accept="video/*"><br><span class="w3-small w3-text-red size_alert"></span>'
 
 	new_page += '</div><div style="height: 25vh"><div class="w3-margin-right w3-margin-left w3-text-grey w3-row w3-large next_buttons" style="text-align: left"></div></div></div>';
 	pre_page.insertAdjacentHTML('afterend', new_page);
@@ -161,16 +161,21 @@ function UpdateMedia(id,type){
 	}
 	switch(type){
 		case 0:
-			page_media.innerHTML = '<textarea placeholder="Page Text ..." class="content-text w3-medium" maxlength="144"></textarea>';
-			
+			page_media.innerHTML = '<textarea placeholder="Page Text ..." class="content-text w3-medium" maxlength="144" onchange="UpdateText('+id+')"></textarea>';
+			data['tale'][i]['media']=''
 			break;
 		case 1:
 			var reader;
 			input = document.getElementById(id).getElementsByTagName('input')[0]
+			if(input.files[0].size > 1048576){
+				input.value = "";
+				size_alert(id);
+			};
 			if (input.files && input.files[0]) {
 				reader = new FileReader();
 				reader.onload = function(e) {
 					page_media.innerHTML = '<img src="'+e.target.result+'" style="max-height:100%;max-width:100%;" class="w3-animate-opacity">';
+					data['tale'][i]['media']=e.target.result;
 				}
 				reader.readAsDataURL(input.files[0]);
 			}
@@ -178,16 +183,47 @@ function UpdateMedia(id,type){
 		case 2:
 			var reader;
 			input = document.getElementById(id).getElementsByTagName('input')[1]
+			if(input.files[0].size > 1048576){
+				input.value = "";
+				size_alert(id);
+			};
 			if (input.files && input.files[0]) {
 				reader = new FileReader();
 				reader.onload = function(e) {
 					page_media.innerHTML = '<video style="max-height:100%;max-width:100%;" class="w3-animate-opacity" id="vid" autoplay muted><source type="video/mp4" src="'+e.target.result+'"></source></video><script>document.getElementById("vid").play();</script>';
+					data['tale'][i]['media']=e.target.result
 				}
 				reader.readAsDataURL(input.files[0]);
 			}
 			break;
 	}
 	
+}
+function UpdateText(id) {
+	var textarea = document.getElementById(id).getElementsByTagName('textarea')[0]
+	for (var i = 0; i < data['tale'].length; i++) {
+		if (data['tale'][i]['id']==id){
+			data['tale'][i]['media']=textarea.value
+			break;
+		}
+	}
+	console.log(data)
+}
+function size_alert(id) {
+	var sizealert = document.getElementById(id).getElementsByClassName('size_alert')[0]
+	sizealert.innerHTML = 'Cannot Upload File (Max File Size 1 MB)'
+	
+}
+function GetTale(){
+	var data2save = data;
+	for (var i = 0; i < data2save['tale'].length; i++) {
+		delete data2save['tale'][i]['id']
+		if (data2save['tale'][i]['next_text'][0]=='' && data2save['tale'][i]['next_text'][1]=='') {
+			data2save['tale'][i]['next_text'] = null
+			data2save['tale'][i]['next_arr'] = null
+		}
+	}
+	console.log(JSON.stringify(data2save))
 }
 InitialRender()
 LoadNextBtns()

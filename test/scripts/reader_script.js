@@ -31,6 +31,7 @@ var data = {
 		},
 	]
 };
+var data = JSON.parse('')
 var tale_name = document.getElementById("tale_name");
 var tale_like = document.getElementById("tale_like");
 var tale_writer = document.getElementById("tale_writer");
@@ -61,7 +62,7 @@ function renderTale() {
 
 function renderPage(page_no) {
 	var page = data["tale"][page_no]; 
-	var next_str = ''	
+	var next_str = ''
 	switch(page["type"]){
 		case 0:
 			page_media.innerHTML = '<div class="w3-padding w3-animate-opacity">'+page["media"]+'</div>';
@@ -76,7 +77,7 @@ function renderPage(page_no) {
 	if (page["next_text"]!=null)
 	{
 		for(i=0;i<page["next_text"].length;i++){
-			next_str += '<button onclick="renderPage('+page['next_arr'][i] +')" class="w3-button w3-animate-opacity w3-padding next-button w3-hover-black" ><b>'+page["next_text"][i]+'</b></button>';
+			next_str += '<button onclick="renderPage('+(page['next_arr'][i]-1) +')" class="w3-button w3-animate-opacity w3-padding next-button w3-hover-black" ><b>'+page["next_text"][i]+'</b></button>';
 		}
 		next_buttons.innerHTML = next_str;
 	} else {

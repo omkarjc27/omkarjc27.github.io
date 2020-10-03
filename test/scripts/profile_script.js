@@ -1,4 +1,4 @@
-var data = {
+var data = null/*{
 	"me":true,
 	"following":true,
 	"username" : "false",
@@ -41,22 +41,28 @@ var data = {
 			"public" : true,
 		},
 	]
-};
+};*/
 var username = document.getElementById("username");
 var n_tales = document.getElementById("n_tales");
 var followers = document.getElementById("followers");
-var f_button = document.getElementById("f_button");
+//var f_button = document.getElementById("f_button");
 var tales = document.getElementById("tales");
 
-function LoadProfile() {
+function LoadProfile(data) {
 	username.innerHTML = data["username"]
 	n_tales.innerHTML = data["n_tales"]
-	followers.innerHTML = data["followers"]
+	followers.innerHTML = data["folowers"]
+	/*
 	if(data["following"]) {
 		f_button.innerHTML = "Following"
 	} else {
 		f_button.innerHTML = "Follow +"
 	}
+
+	if(data["me"]){
+		f_button.innerHTML = "Settings"
+	}
+	*/
 	n_tales.innerHTML = data["tales"].length
 	var tales_html = ''
 	for (var i = 0; i < data["tales"].length; i++) {
@@ -81,8 +87,37 @@ function LoadProfile() {
 		tales_html += '</div>'
 	}
 	if (data["tales"].length==0){
-		tales_html = '<div class="w3-center"><span>You have not written any Tales</span><br><a href="create.html" class="w3-button next-button w3-hover-black w3-round-large w3-xlarge" style="padding: 0px 4px;margin-top: 10px;width:70%;"><b> Create A Tale</b></a></div>'
+		tales_html = '<div class="w3-center" style="margin-top:50px;"><span>You have not written any Tales</span><br><a href="create.html" class="w3-button next-button w3-hover-black w3-round-large w3-xlarge" style="padding: 0px 4px;margin-top: 10px;width:70%;"><b> Create A Tale</b></a></div>'
 	}
 	tales.innerHTML = tales_html
+	return 
 }
-LoadProfile()
+
+function Load_Page(){
+	document.getElementById("loading").style.display="block";
+
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+	var u_name = urlParams.get('user')
+	if(u_name==null){
+		u_name=((window.localStorage.getItem("Snow_Globe_User_ID")).split("|"))[0]
+	}
+	var ourRequest = new XMLHttpRequest();
+	ourRequest.open('POST', 'https://api-snowglobe.herokuapp.com/Users/');
+	ourRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	ourRequest.send(JSON.stringify({ "u_name": u_name,'token':window.localStorage.getItem("Snow_Globe_User_ID")}));
+	ourRequest.onload = function() {
+		if (ourRequest.status >= 200 && ourRequest.status < 400) {
+			var ret_data = JSON.parse(ourRequest.responseText);
+			if (ret_data=="BadLogin"){
+			} else {
+				LoadProfile(ret_data)
+				document.getElementById("loading").style.display="none";
+			}
+		} else {
+			console.log("We connected to the server, but it returned an error.");
+		}
+	}
+}
+
+Load_Page()
