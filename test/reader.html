@@ -13,7 +13,7 @@
 		<link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet"> 
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	</head>
-	<body id="body">
+	<body id="body" onload="Load_Page()">
 		<center class="back" style="width: 100%;height: 100%;">
 			<div style="max-width: 500px">
 
@@ -28,7 +28,7 @@
 				<!--Top Bar End-->
 				
 								
-				<div class="w3-black w3-round-xlarge w3-margin-right w3-margin-left w3-animate-right" >
+				<div id="main" class="w3-black w3-round-xlarge w3-margin-right w3-margin-left" >
 
 					<!--Info Bar Start-->
 					<div class="w3-bar w3-padding w3-text-grey" style="height: 10vh;text-align: left;">
@@ -48,6 +48,7 @@
 					
 					<!--Media Bar Start-->
 					<div id="page_media" style="height:50vh;font-size: 2.7vh" class="w3-padding">
+						<i class="fa fa-spinner fa-spin" style="font-size:50px;margin-top: 45%;"></i>
 					</div>
 					<!--Media Bar End-->
 				

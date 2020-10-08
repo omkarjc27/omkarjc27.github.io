@@ -1,7 +1,6 @@
 var data = {
-	"tale_name":null,
-	"hidden":true,
-	"tale_writer" : "Writer Name",
+	"tale_name":'Unnamed',
+	"hidden":false,
 	"tale" : [
 		{
 			"id":1,
@@ -15,6 +14,7 @@ var data = {
 var tale_name = document.getElementById("tale_name");
 var tale_space = document.getElementById("tale_space");
 var counter = 0
+var tale = null
 
 function InitialRender() {
 	tale_name.value = data['tale_name'];
@@ -28,11 +28,11 @@ function InitialRender() {
 	for (var i = 0; i < data['tale'].length; i++){
 		/*Find page with ith index in page list*/
 		space += '<div id="'+data['tale'][i]['id']+'" class="w3-black w3-round-large w3-margin" style="height:73vh;max-width: 400px;min-width: 270px;width:80vw;white-space: normal; display: inline-block;">';
-		space += '<div style="height: 5vh;padding: 10px;"><a class="side-buttons w3-left" onclick="DeletePage('+data['tale'][i]['id']+')" ><i class="fa fa-trash w3-xlarge w3-text-grey"></i><br>Delete Page</a><span class="w3-small w3-center page_no">Page No '+(i+1)+'</span><a class="side-buttons w3-right" onclick="AddPage('+data['tale'][i]['id']+')"><i class="fa fa-plus w3-xlarge w3-text-grey"></i><br>New Page</a></div>'
+		space += '<div style="height: 7vh;padding: 10px;"><a class="side-buttons w3-left" onclick="DeletePage('+data['tale'][i]['id']+')" ><i class="fa fa-trash w3-xlarge w3-text-grey"></i><br>Delete Page</a><span class="w3-small w3-center page_no">Page No '+(i+1)+'</span><a class="side-buttons w3-right" onclick="AddPage('+data['tale'][i]['id']+')"><i class="fa fa-plus w3-xlarge w3-text-grey"></i><br>New Page</a></div>'
 
-		space += '<div style="height:7vh;font-size: 2.7vh" class="w3-padding">'
+		/*space += '<div style="height:7vh;font-size: 2.7vh" class="w3-padding">'*/
 		
-		space += '<div style="height:36vh;font-size: 2.7vh" class="w3-padding page_media">'
+		space += '<div style="height:35vh;font-size: 2.7vh" class="w3-padding page_media">'
 
 		switch(data['tale'][i]['type']){
 			case null:
@@ -42,10 +42,10 @@ function InitialRender() {
 				space += '<textarea placeholder="Page Text ..." class="content-text w3-medium" maxlength="144">'+data['tale'][i]['media']+'</textarea>';
 				break;
 			case 1:
-				space += '<img src="'+data['tale'][i]['media']+'" style="max-height:100%;max-width:100%;" class="w3-animate-opacity">';
+				space += '<img src="https://ik.imagekit.io/snowglobe/'+data['tale_writer']+'/'+data['tale'][i]['media']+'" style="max-height:100%;max-width:100%;" class="w3-animate-opacity">';
 				break;
 			case 2:
-				space +='<video style="max-height:100%;max-width:100%;" class="w3-animate-opacity" id="vid" autoplay muted><source type="video/mp4" src="'+data['tale'][i]['media']+'"></source></video><script>document.getElementById("vid").play();</script>';
+				space +='<video style="max-height:100%;max-width:100%;" class="w3-animate-opacity" id="vid" autoplay muted><source type="video/mp4" src="https://ik.imagekit.io/snowglobe/'+data['tale_writer']+'/'+data['tale'][i]['media']+'"></source></video><script>document.getElementById("vid").play();</script>';
 				break;
 		}
 
@@ -152,6 +152,7 @@ function UpdateNextB(id){
 	data['tale'][i]['next_arr'][1] = page_btns[1].getElementsByTagName('select')[0].value
 }
 function UpdateMedia(id,type){
+	document.getElementById("loading").style.display="block";
 	var page_media = document.getElementById(id).getElementsByClassName('page_media')[0]
 	for (var i = 0; i < data['tale'].length; i++) {
 		if (data['tale'][i]['id']==id){
@@ -163,6 +164,7 @@ function UpdateMedia(id,type){
 		case 0:
 			page_media.innerHTML = '<textarea placeholder="Page Text ..." class="content-text w3-medium" maxlength="144" onchange="UpdateText('+id+')"></textarea>';
 			data['tale'][i]['media']=''
+			document.getElementById("loading").style.display="none";
 			break;
 		case 1:
 			var reader;
@@ -173,9 +175,28 @@ function UpdateMedia(id,type){
 			};
 			if (input.files && input.files[0]) {
 				reader = new FileReader();
+				var u_name = ((window.localStorage.getItem("Snow_Globe_User_ID")).split("|"))[0]
 				reader.onload = function(e) {
-					page_media.innerHTML = '<img src="'+e.target.result+'" style="max-height:100%;max-width:100%;" class="w3-animate-opacity">';
-					data['tale'][i]['media']=e.target.result;
+					var ourRequest = new XMLHttpRequest();
+					ourRequest.open('POST', 'https://api-snowglobe.herokuapp.com/UploadFile/');
+					ourRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+					ourRequest.send(JSON.stringify({'token':window.localStorage.getItem("Snow_Globe_User_ID"),'file':e.target.result.replace(/^data:.+;base64,/, ''),'file_name':input.files[0]['name']}));
+					ourRequest.onload = function() {
+						if (ourRequest.status >= 200 && ourRequest.status < 400) {
+							var ret_data = JSON.parse(ourRequest.responseText);
+							if (ret_data=="BadLogin"||ret_data==false){
+								window.location.href = "entry.html";
+								return
+							} else {
+								page_media.innerHTML = '<img src="https://ik.imagekit.io/snowglobe/'+u_name+'/'+ret_data+'" style="max-height:100%;max-width:100%;" class="w3-animate-opacity">';
+								data['tale'][i]['media']=ret_data;
+								document.getElementById("loading").style.display="none";
+							}
+						} else {
+							console.log("We connected to the server, but it returned an error.");
+							return
+						}
+					}
 				}
 				reader.readAsDataURL(input.files[0]);
 			}
@@ -188,10 +209,33 @@ function UpdateMedia(id,type){
 				size_alert(id);
 			};
 			if (input.files && input.files[0]) {
+				var u_name = ((window.localStorage.getItem("Snow_Globe_User_ID")).split("|"))[0]
 				reader = new FileReader();
 				reader.onload = function(e) {
-					page_media.innerHTML = '<video style="max-height:100%;max-width:100%;" class="w3-animate-opacity" id="vid" autoplay muted><source type="video/mp4" src="'+e.target.result+'"></source></video><script>document.getElementById("vid").play();</script>';
-					data['tale'][i]['media']=e.target.result
+					if ((window.localStorage.getItem("Snow_Globe_User_ID"))==null) {
+						window.location.href = "entry.html"
+						return
+					}
+					var ourRequest = new XMLHttpRequest();
+					ourRequest.open('POST', 'https://api-snowglobe.herokuapp.com/UploadFile/');
+					ourRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+					ourRequest.send(JSON.stringify({'token':window.localStorage.getItem("Snow_Globe_User_ID"),'file':e.target.result.replace(/^data:.+;base64,/, ''),'file_name':input.files[0]['name']}));
+					ourRequest.onload = function() {
+						if (ourRequest.status >= 200 && ourRequest.status < 400) {
+							var ret_data = JSON.parse(ourRequest.responseText);
+							if (ret_data=="BadLogin"||ret_data==false){
+								window.location.href = "entry.html";
+								return
+							} else {
+								page_media.innerHTML = '<video style="max-height:100%;max-width:100%;" class="w3-animate-opacity" id="vid" autoplay muted><source type="video/mp4" src="https://ik.imagekit.io/snowglobe/'+u_name+'/'+ret_data+'"></source></video><script>document.getElementById("vid").play();</script>';
+								data['tale'][i]['media']=ret_data;
+								document.getElementById("loading").style.display="none";
+							}
+						} else {
+							console.log("We connected to the server, but it returned an error.");
+							return
+						}
+					}
 				}
 				reader.readAsDataURL(input.files[0]);
 			}
@@ -207,23 +251,124 @@ function UpdateText(id) {
 			break;
 		}
 	}
-	console.log(data)
 }
 function size_alert(id) {
 	var sizealert = document.getElementById(id).getElementsByClassName('size_alert')[0]
 	sizealert.innerHTML = 'Cannot Upload File (Max File Size 1 MB)'
-	
 }
-function GetTale(){
+function SaveTale(toggle){
+	document.getElementById("loading").style.display="block";
+	var u_name = ''
+	if ((window.localStorage.getItem("Snow_Globe_User_ID"))==null) {
+		window.location.href = "entry.html"
+		return
+	} else {
+		u_name=((window.localStorage.getItem("Snow_Globe_User_ID")).split("|"))[0]		
+	}
+
 	var data2save = data;
 	for (var i = 0; i < data2save['tale'].length; i++) {
-		delete data2save['tale'][i]['id']
+		for (var j = 0; j < data2save['tale'].length; j++){
+			if (data2save['tale'][j]['id'] == data2save['tale'][i]['next_arr'][0]){
+				data2save['tale'][i]['next_arr'][0] = j+1
+			}
+			if (data2save['tale'][j]['id'] == data2save['tale'][i]['next_arr'][1]){
+				data2save['tale'][i]['next_arr'][1] = j+1
+			}
+		}
+	}
+	for (var i = 0; i < data2save['tale'].length; i++) {
 		if (data2save['tale'][i]['next_text'][0]=='' && data2save['tale'][i]['next_text'][1]=='') {
 			data2save['tale'][i]['next_text'] = null
 			data2save['tale'][i]['next_arr'] = null
 		}
 	}
-	console.log(JSON.stringify(data2save))
+	data2save['tale'] = JSON.stringify(data2save['tale'])
+	data2save['hidden']=toggle
+	data['hidden']=toggle
+
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+	tale = urlParams.get('tale')
+
+	var ourRequest = new XMLHttpRequest();
+	ourRequest.open('POST', 'https://api-snowglobe.herokuapp.com/TaleChange/');
+	ourRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	ourRequest.send(JSON.stringify({'tale_token':tale,'token':window.localStorage.getItem("Snow_Globe_User_ID"),'data':data2save}));
+	ourRequest.onload = function() {
+		if (ourRequest.status >= 200 && ourRequest.status < 400) {
+			var ret_data = JSON.parse(ourRequest.responseText);
+			if (ret_data=="BadLogin"){
+				window.location.href = "entry.html";
+				return
+			} else {
+				urlParams.set('tale', ret_data);
+				window.location.search = urlParams;
+				tale = ret_data
+				document.getElementById("loading").style.display="none";
+			}
+		} else {
+			console.log("We connected to the server, but it returned an error.");
+			return
+		}
+	}
 }
-InitialRender()
-LoadNextBtns()
+
+function Load_Page(){
+	document.getElementById("loading").style.display="block";
+
+	if ((window.localStorage.getItem("Snow_Globe_User_ID"))==null) {
+		window.location.href = "entry.html"
+		return
+	} else {
+		u_name=((window.localStorage.getItem("Snow_Globe_User_ID")).split("|"))[0]
+		
+	}
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+	tale = urlParams.get('tale')
+	if(tale!=null) {	
+		var ourRequest = new XMLHttpRequest();
+		ourRequest.open('POST', 'https://api-snowglobe.herokuapp.com/Tales/');
+		ourRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+		ourRequest.send(JSON.stringify({'tale_token':tale,'token':window.localStorage.getItem("Snow_Globe_User_ID")}));
+		ourRequest.onload = function() {
+			if (ourRequest.status >= 200 && ourRequest.status < 400) {
+				var ret_data = JSON.parse(ourRequest.responseText);
+				if (ret_data=="BadLogin"){
+					window.location.href = "entry.html"
+					return
+				} else if(ret_data=="Private"){
+					tale_space.innerHTML == '<h1>Not Found</h1>'
+				} else if(ret_data==false){
+					tale_space.innerHTML == '<h1>Not Found</h1>'
+					document.getElementById("loading").style.display="none";
+					return
+				} else {
+					data = ret_data
+					data['tale']=JSON.parse(data['tale'])
+					for (var i = 0; i < data['tale'].length; i++) {
+						data['tale'][i]['id'] = i+1
+						if (data['tale'][i]['next_text']==null && data['tale'][i]['next_arr']==null) {
+							data['tale'][i]['next_text'] = ['','']
+							data['tale'][i]['next_arr'] = ['','']
+						}
+					}
+					InitialRender()
+					LoadNextBtns()
+				}
+			} else {
+				console.log("We connected to the server, but it returned an error.");
+				return
+			}
+		}
+	}else{
+		InitialRender()
+		LoadNextBtns()
+	}
+	document.getElementById("loading").style.display="none";
+
+	window.onbeforeunload = function() {
+		return "If you Refresh all unsaved progress will be lost";
+	}
+}

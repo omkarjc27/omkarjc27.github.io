@@ -45,14 +45,13 @@ var data = null/*{
 var username = document.getElementById("username");
 var n_tales = document.getElementById("n_tales");
 var followers = document.getElementById("followers");
-//var f_button = document.getElementById("f_button");
+var f_button = document.getElementById("f_button");
 var tales = document.getElementById("tales");
 
 function LoadProfile(data) {
 	username.innerHTML = data["username"]
 	n_tales.innerHTML = data["n_tales"]
-	followers.innerHTML = data["folowers"]
-	/*
+	followers.innerHTML = data["followers"]
 	if(data["following"]) {
 		f_button.innerHTML = "Following"
 	} else {
@@ -62,24 +61,18 @@ function LoadProfile(data) {
 	if(data["me"]){
 		f_button.innerHTML = "Settings"
 	}
-	*/
 	n_tales.innerHTML = data["tales"].length
 	var tales_html = ''
 	for (var i = 0; i < data["tales"].length; i++) {
 		if(data['tales'][i]['public']==false && data['me']){
-			tales_html += '<div class="w3-card w3-padding w3-round-large w3-black w3-margin"><span class="w3-large">'+data["tales"][i]["name"]+'<span class="w3-text-grey w3-medium"> (hidden)</span>'
+			tales_html += '<div class="w3-card w3-padding w3-round-large w3-black w3-margin"><a class="w3-large" href="reader.html?tale='+data["tales"][i]["token"]+'">'+data["tales"][i]["name"]+'<span class="w3-text-grey w3-medium"> (hidden)</span>'
 		} else {
-			tales_html += '<div class="w3-card w3-padding w3-round-large w3-black w3-margin"><span class="w3-large">'+data["tales"][i]["name"]
+			tales_html += '<div class="w3-card w3-padding w3-round-large w3-black w3-margin"><a class="w3-large" href="reader.html?tale='+data["tales"][i]["token"]+'">'+data["tales"][i]["name"]
 		}
-		tales_html += '</span><br><span class="w3-small w3-text-grey" style="border:none;padding: 0px">'+data["tales"][i]["views"]+' views</span><span style="font-size: 15px;margin-left: 2px;margin-right: 2px;" class="w3-text-grey"><b> &#183; </b></span><span class="w3-small w3-text-grey" style="padding: 0px">'+data["tales"][i]["likes"]+' likes</span>'
+		tales_html += '</a><br><span class="w3-small w3-text-grey" style="border:none;padding: 0px">'+data["tales"][i]["views"]+' views</span><span style="font-size: 15px;margin-left: 2px;margin-right: 2px;" class="w3-text-grey"><b> &#183; </b></span><span class="w3-small w3-text-grey" style="padding: 0px">'+data["tales"][i]["likes"]+' likes</span>'
 		if(data["me"]) {
 			tales_html += '<br><a href=""><i class="fa fa-share-alt w3-medium w3-margin-top w3-text-grey"></i> Share</a>'
-			tales_html+='<a href=""><i class="fa fa-pencil w3-medium w3-margin-left w3-margin-top w3-text-grey"></i> Edit</a>'
-			if(data["tales"][i]["public"]){
-				tales_html+='<a href=""><i class="fa fa-eye-slash w3-medium w3-margin-left w3-margin-top w3-text-grey"></i> Hide</a>'
-			} else {
-				tales_html+='<a href=""><i class="fa fa-eye w3-medium w3-margin-left w3-margin-top w3-text-grey"></i> Unhide</a>'
-			}
+			tales_html+='<a href="create.html?tale='+data["tales"][i]["token"]+'"><i class="fa fa-pencil w3-medium w3-margin-left w3-margin-top w3-text-grey"></i> Edit</a>'
 		} else {
 			tales_html += '<br><a href=""><i class="fa fa-share-alt w3-medium w3-margin-top"></i> Share</a>'
 		}
@@ -100,7 +93,11 @@ function Load_Page(){
 	const urlParams = new URLSearchParams(queryString);
 	var u_name = urlParams.get('user')
 	if(u_name==null){
-		u_name=((window.localStorage.getItem("Snow_Globe_User_ID")).split("|"))[0]
+		if ((window.localStorage.getItem("Snow_Globe_User_ID"))!=null) {
+			u_name=((window.localStorage.getItem("Snow_Globe_User_ID")).split("|"))[0]
+		} else {
+			window.location.href = "entry.html"
+		}
 	}
 	var ourRequest = new XMLHttpRequest();
 	ourRequest.open('POST', 'https://api-snowglobe.herokuapp.com/Users/');
@@ -110,6 +107,8 @@ function Load_Page(){
 		if (ourRequest.status >= 200 && ourRequest.status < 400) {
 			var ret_data = JSON.parse(ourRequest.responseText);
 			if (ret_data=="BadLogin"){
+				window.location.href = "entry.html"
+				return
 			} else {
 				LoadProfile(ret_data)
 				document.getElementById("loading").style.display="none";
@@ -119,5 +118,3 @@ function Load_Page(){
 		}
 	}
 }
-
-Load_Page()

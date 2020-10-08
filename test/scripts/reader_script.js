@@ -1,37 +1,4 @@
-var data = {
-	"tale_name":"Tale_Name",
-	"tale_like" : false,
-	"hidden":true,
-	"tale_writer" : "Writer Name",
-	"writer_following" : false,
-	"tale" : [
-		{
-			"type" : 0,
-			"media" : "Denny JA: Denny Dengan RT ini,Denny a anda ikut memenangkan Jokowi-JK. Pilih pemimpin yg bisa dipercaya (Jokowi) dan pengalaman (JK). #DJoJK.as yg bisa dipercaya (Jokowi) a dan pengalaman (JK). #DJoJK",
-			"next_text" : ["goto 1","goto 2"],
-			"next_arr" : [1,2],
-		},
-		{
-			"type" : 1,
-			"media" : "media/hor.jpg",
-			"next_text" : ["goto 2","goto 3"],
-			"next_arr" : [2,3],
-		},
-		{
-			"type" : 1,
-			"media" : "media/ver.jpg",
-			"next_text" : ["goto 1","goto 3"],
-			"next_arr" : [1,3],
-		},
-		{
-			"type" : 2,
-			"media" : "media/vid.mp4",
-			"next_text" : null,
-			"next_arr" : null,
-		},
-	]
-};
-var data = JSON.parse('')
+var data = null;
 var tale_name = document.getElementById("tale_name");
 var tale_like = document.getElementById("tale_like");
 var tale_writer = document.getElementById("tale_writer");
@@ -44,6 +11,7 @@ var next_buttons = document.getElementById("next_buttons");
 function renderTale() {
 	tale_name.innerHTML="<b>"+data["tale_name"]+"</b>";
 	tale_writer.innerHTML = "<b>"+data["tale_writer"]+"</b>";
+	tale_writer.href = "profile.html?user="+data["tale_writer"];
 	
 	if (data["tale_like"] == true){
 		tale_like.classList.remove("fa","fa-heart-o","w3-text-white");
@@ -52,7 +20,6 @@ function renderTale() {
 		tale_like.classList.remove("fa","fa-heart","w3-text-red");	
 		tale_like.classList.add("fa","fa-heart-o","w3-text-white");
 	}
-
 	if (data["writer_following"] == true){
 		writer_following.innerHTML = "<b>Following</b>";
 	} else {
@@ -65,24 +32,24 @@ function renderPage(page_no) {
 	var next_str = ''
 	switch(page["type"]){
 		case 0:
-			page_media.innerHTML = '<div class="w3-padding w3-animate-opacity">'+page["media"]+'</div>';
+			page_media.innerHTML = '<div class="w3-padding" style="font-size:3.5vh;">'+page["media"]+'</div>';
 			break;
 		case 1:
-			page_media.innerHTML = '<img src="'+page["media"]+'" style="max-height:100%;max-width:100%;" class="w3-animate-opacity">';
+			page_media.innerHTML = '<img src="https://ik.imagekit.io/snowglobe/'+data["tale_writer"]+'/'+page["media"]+'" style="max-height:100%;max-width:100%;" class="w3-animate-opacity">';
 			break;
 		case 2:
-			page_media.innerHTML = '<video style="max-height:100%;max-width:100%;" class="w3-animate-opacity" id="vid" autoplay muted><source type="video/mp4" src="'+page["media"]+'"></source></video><script>document.getElementById("vid").play();</script>';
+			page_media.innerHTML = '<video style="max-height:100%;max-width:100%;" class="w3-animate-opacity" id="vid" autoplay muted><source type="video/mp4" src="https://ik.imagekit.io/snowglobe/'+data["tale_writer"]+'/'+page["media"]+'"></source></video><script>document.getElementById("vid").play();</script>';
 			break;
 	}
 	if (page["next_text"]!=null)
 	{
 		for(i=0;i<page["next_text"].length;i++){
-			next_str += '<button onclick="renderPage('+(page['next_arr'][i]-1) +')" class="w3-button w3-animate-opacity w3-padding next-button w3-hover-black" ><b>'+page["next_text"][i]+'</b></button>';
+			next_str += '<button onclick="renderPage('+(page['next_arr'][i]-1) +')" class="w3-button w3-padding next-button w3-hover-black" ><b>'+page["next_text"][i]+'</b></button>';
 		}
 		next_buttons.innerHTML = next_str;
 	} else {
-		next_str += '<button class="w3-button w3-animate-opacity w3-hover-black w3-black w3-padding" onclick="renderPage(0)" style="width: 100%;margin-top:4px;background-color: #6f2232"><b>Replay <i id="tale_like" class="fa fa-repeat"></i></b></button>'
-		next_str += '<button class="w3-button w3-animate-opacity w3-hover-black w3-black" onclick="renderPage(0)" style="width: 100%;margin-top:4px;background-color: #262626"><b>Next</b><div id="nextBar"></div></button>'
+		next_str += '<button class="w3-button w3-hover-black w3-black w3-padding" onclick="renderPage(0)" style="width: 100%;margin-top:4px;background-color: #6f2232"><b>Replay <i id="tale_like" class="fa fa-repeat"></i></b></button>'
+		next_str += '<button class="w3-button w3-hover-black w3-black" onclick="renderPage(0)" style="width: 100%;margin-top:4px;background-color: #262626"><b>Next</b><div id="nextBar"></div></button>'
 		next_buttons.innerHTML = next_str;
 		NextTimer()
 
@@ -122,5 +89,34 @@ ourRequest.onload = function() {
 		console.log("We connected to the server, but it returned an error.");
 	}
 }
-renderTale();
-renderPage(0);
+
+function Load_Page(){
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+	tale = urlParams.get('tale')
+	if(tale!=null) {	
+		var ourRequest = new XMLHttpRequest();
+		ourRequest.open('POST', 'https://api-snowglobe.herokuapp.com/Tales/');
+		ourRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+		ourRequest.send(JSON.stringify({'tale_token':tale,'token':window.localStorage.getItem("Snow_Globe_User_ID")}));
+		ourRequest.onload = function() {
+			if (ourRequest.status >= 200 && ourRequest.status < 400) {
+				var ret_data = JSON.parse(ourRequest.responseText);
+				if(ret_data=="Private" || ret_data==false){
+					document.getElementById("error").innerHTML = 'Tale Not Found'
+				} else {
+					data = ret_data
+					data['tale']=JSON.parse(data['tale'])
+					renderTale();
+					renderPage(0);
+				}
+			} else {
+				console.log("We connected to the server, but it returned an error.");
+				return
+			}
+		}
+	}else{
+		window.location.href = "search.html"
+		return	
+	}
+}
