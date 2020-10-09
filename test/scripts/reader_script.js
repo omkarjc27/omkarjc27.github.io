@@ -2,7 +2,6 @@ var data = null;
 var tale_name = document.getElementById("tale_name");
 var tale_like = document.getElementById("tale_like");
 var tale_writer = document.getElementById("tale_writer");
-var writer_following = document.getElementById("writer_following");
 var tale_like = document.getElementById("tale_like");
 var tale_save = document.getElementById("tale_save");
 var page_media = document.getElementById("page_media");
@@ -49,9 +48,9 @@ function renderPage(page_no) {
 		next_buttons.innerHTML = next_str;
 	} else {
 		next_str += '<button class="w3-button w3-hover-black w3-black w3-padding" onclick="renderPage(0)" style="width: 100%;margin-top:4px;background-color: #6f2232"><b>Replay <i id="tale_like" class="fa fa-repeat"></i></b></button>'
-		next_str += '<button class="w3-button w3-hover-black w3-black" onclick="renderPage(0)" style="width: 100%;margin-top:4px;background-color: #262626"><b>Next</b><div id="nextBar"></div></button>'
+		//next_str += '<button class="w3-button w3-hover-black w3-black" onclick="renderPage(0)" style="width: 100%;margin-top:4px;background-color: #262626"><b>Next</b><div id="nextBar"></div></button>'
 		next_buttons.innerHTML = next_str;
-		NextTimer()
+		//NextTimer()
 
 	}
 }
@@ -77,19 +76,6 @@ function NextTimer(){
 		}
 	}
 }
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-const product = urlParams.get('a')
-var ourRequest = new XMLHttpRequest();
-ourRequest.open('GET', 'https://learnwebcode.github.io/tales/'+urlParams.get('tale'));
-ourRequest.onload = function() {
-	if (ourRequest.status >= 200 && ourRequest.status < 400) {
-		var data = JSON.parse(ourRequest.responseText);
-	} else {
-		console.log("We connected to the server, but it returned an error.");
-	}
-}
-
 function Load_Page(){
 	const queryString = window.location.search;
 	const urlParams = new URLSearchParams(queryString);
@@ -103,7 +89,7 @@ function Load_Page(){
 			if (ourRequest.status >= 200 && ourRequest.status < 400) {
 				var ret_data = JSON.parse(ourRequest.responseText);
 				if(ret_data=="Private" || ret_data==false){
-					document.getElementById("error").innerHTML = 'Tale Not Found'
+					error('Not Found','The tale you are seraching does not exists or has been made private.')
 				} else {
 					data = ret_data
 					data['tale']=JSON.parse(data['tale'])
@@ -111,7 +97,7 @@ function Load_Page(){
 					renderPage(0);
 				}
 			} else {
-				console.log("We connected to the server, but it returned an error.");
+				error('Server Error','Our Team is working on fixing it.');
 				return
 			}
 		}

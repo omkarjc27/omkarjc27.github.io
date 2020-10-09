@@ -40,7 +40,7 @@ function Search(val){
 					LoadResult()
 				}
 			} else {
-				console.log("We connected to the server, but it returned an error.");
+				error('Server Error','Our Team is working on fixing it.');
 			}
 		}
 	}	

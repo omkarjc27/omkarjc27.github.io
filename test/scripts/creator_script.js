@@ -193,7 +193,7 @@ function UpdateMedia(id,type){
 								document.getElementById("loading").style.display="none";
 							}
 						} else {
-							console.log("We connected to the server, but it returned an error.");
+							error('Server Error','Our Team is working on fixing it.')
 							return
 						}
 					}
@@ -232,7 +232,7 @@ function UpdateMedia(id,type){
 								document.getElementById("loading").style.display="none";
 							}
 						} else {
-							console.log("We connected to the server, but it returned an error.");
+							error('Server Error','Our Team is working on fixing it.')
 							return
 						}
 					}
@@ -302,21 +302,21 @@ function SaveTale(toggle){
 				window.location.href = "entry.html";
 				return
 			} else {
+				window.onbeforeunload = function() {return null;}
 				urlParams.set('tale', ret_data);
 				window.location.search = urlParams;
 				tale = ret_data
 				document.getElementById("loading").style.display="none";
+				window.onbeforeunload = function() {return false;}
 			}
 		} else {
-			console.log("We connected to the server, but it returned an error.");
+			error('Server Error','Our Team is working on fixing it.');
 			return
 		}
 	}
 }
 
 function Load_Page(){
-	document.getElementById("loading").style.display="block";
-
 	if ((window.localStorage.getItem("Snow_Globe_User_ID"))==null) {
 		window.location.href = "entry.html"
 		return
@@ -339,10 +339,9 @@ function Load_Page(){
 					window.location.href = "entry.html"
 					return
 				} else if(ret_data=="Private"){
-					tale_space.innerHTML == '<h1>Not Found</h1>'
+					error('Not Found','This tale is has been made Private.')
 				} else if(ret_data==false){
-					tale_space.innerHTML == '<h1>Not Found</h1>'
-					document.getElementById("loading").style.display="none";
+					error('Not Found','This tale is not available.')
 					return
 				} else {
 					data = ret_data
@@ -358,7 +357,7 @@ function Load_Page(){
 					LoadNextBtns()
 				}
 			} else {
-				console.log("We connected to the server, but it returned an error.");
+				error('Server Error','Our Team is working on fixing it.');
 				return
 			}
 		}
@@ -366,9 +365,6 @@ function Load_Page(){
 		InitialRender()
 		LoadNextBtns()
 	}
-	document.getElementById("loading").style.display="none";
 
-	window.onbeforeunload = function() {
-		return "If you Refresh all unsaved progress will be lost";
-	}
+	window.onbeforeunload = function() {return false;}
 }

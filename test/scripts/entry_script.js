@@ -22,7 +22,7 @@ function SignUp() {
 				window.location.href = "profile.html?user="+u_name;
 			}
 		} else {
-			console.log("We connected to the server, but it returned an error.");
+			error('Server Error','Our Team is working on fixing it.')
 		}
 	}
 }
@@ -43,7 +43,7 @@ function CheckMail(inp) {
 				e_disp.innerHTML = ""
 			}
 		} else {
-			console.log("We connected to the server, but it returned an error.");
+			error('Server Error','Our Team is working on fixing it.')
 		}
 	}
 }
@@ -63,7 +63,7 @@ function CheckUname(inp) {
 				e_disp.innerHTML = ""
 			}
 		} else {
-			console.log("We connected to the server, but it returned an error.");
+			error('Server Error','Our Team is working on fixing it.');
 		}
 	}
 }
@@ -88,7 +88,7 @@ function Login() {
 				window.location.href = "profile.html?user="+u_name;
 			}
 		} else {
-			console.log("We connected to the server, but it returned an error.");
+			error('Server Error','Our Team is working on fixing it.');
 		}
 	}
 }

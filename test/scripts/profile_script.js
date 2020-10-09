@@ -1,47 +1,4 @@
-var data = null/*{
-	"me":true,
-	"following":true,
-	"username" : "false",
-	"followers" : "237M",
-	"tales" : [
-		{
-			"name":"tale_name1",
-			"views" : "34",
-			"likes" : "12",
-			"public" : true,
-		},
-		{
-			"name":"tale_name2",
-			"views" : "13",
-			"likes" : "0",
-			"public" : true,
-		},
-		{
-			"name":"tale_name3",
-			"views" : "233M",
-			"likes" : "100k",
-			"public" : false,
-		},
-		{
-			"name":"tale_name4",
-			"views" : "89",
-			"likes" : "14",
-			"public" : true,
-		},
-		{
-			"name":"tale_name5",
-			"views" : "78",
-			"likes" : "22",
-			"public" : false,
-		},
-		{
-			"name":"tale_name6",
-			"views" : "18",
-			"likes" : "14",
-			"public" : true,
-		},
-	]
-};*/
+var data = null
 var username = document.getElementById("username");
 var n_tales = document.getElementById("n_tales");
 var followers = document.getElementById("followers");
@@ -64,7 +21,7 @@ function LoadProfile(data) {
 	n_tales.innerHTML = data["tales"].length
 	var tales_html = ''
 	for (var i = 0; i < data["tales"].length; i++) {
-		if(data['tales'][i]['public']==false && data['me']){
+		if(data['tales'][i]['hidden']==true && data['me']){
 			tales_html += '<div class="w3-card w3-padding w3-round-large w3-black w3-margin"><a class="w3-large" href="reader.html?tale='+data["tales"][i]["token"]+'">'+data["tales"][i]["name"]+'<span class="w3-text-grey w3-medium"> (hidden)</span>'
 		} else {
 			tales_html += '<div class="w3-card w3-padding w3-round-large w3-black w3-margin"><a class="w3-large" href="reader.html?tale='+data["tales"][i]["token"]+'">'+data["tales"][i]["name"]
@@ -109,12 +66,14 @@ function Load_Page(){
 			if (ret_data=="BadLogin"){
 				window.location.href = "entry.html"
 				return
+			} else if (ret_data==false){
+				error('Not Found','The User your are searching does not exist.')
 			} else {
 				LoadProfile(ret_data)
 				document.getElementById("loading").style.display="none";
 			}
 		} else {
-			console.log("We connected to the server, but it returned an error.");
+			error('Server Error','Our Team is working on fixing it.')
 		}
 	}
 }
