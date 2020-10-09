@@ -60,7 +60,7 @@ function LoadNextBtns() {
 		var page_no = document.getElementById(data['tale'][i]['id']).getElementsByClassName('page_no')[0]
 		page_no.innerHTML = 'Page No '+(i+1);
 		var add = ''
-		add += '<button class="next-button w3-black w3-hover-black w3-padding"><input class="w3-left w3-medium w3-black w3-margin-bottom" style="border:none;background-color: black;border-bottom: 1px solid grey;width: 100%;" type="text" placeholder="Option message" value="'+data['tale'][i]['next_text'][0]+'">'
+		add += '<button class="next-button w3-black w3-hover-black w3-padding"><input class="w3-left w3-medium w3-black w3-margin-bottom" style="border:none;background-color: black;border-bottom: 1px solid grey;width: 100%;" type="text" placeholder="Option message" maxlength="20" value="'+data['tale'][i]['next_text'][0]+'">'
 		add += '<select class="w3-text-grey w3-black w3-left w3-small" style="border:none;" onchange="UpdateNextB('+data['tale'][i]['id']+')">'
 		if(data['tale'][i]['next_arr'][0]==''){
 			add += '<option selected="selected">Go to Page No #</option>'
@@ -77,7 +77,7 @@ function LoadNextBtns() {
 		add += '</select></button>'
 								
 
-		add += '<button class="next-button w3-black w3-hover-black w3-padding"><input class="w3-left w3-medium w3-black w3-margin-bottom" style="border:none;background-color: black;border-bottom: 1px solid grey;width: 100%;" type="text" placeholder="Option message" value="'+data['tale'][i]['next_text'][1]+'">'
+		add += '<button class="next-button w3-black w3-hover-black w3-padding"><input maxlength="20" class="w3-left w3-medium w3-black w3-margin-bottom" style="border:none;background-color: black;border-bottom: 1px solid grey;width: 100%;" type="text" placeholder="Option message" value="'+data['tale'][i]['next_text'][1]+'">'
 		add += '<select class="w3-text-grey w3-black w3-left w3-small" style="border:none;" onchange="UpdateNextB('+data['tale'][i]['id']+')">'
 		if(data['tale'][i]['next_arr'][1]==''){
 			add += '<option value="" selected="selected">Go to Page No #</option>'
@@ -95,7 +95,7 @@ function LoadNextBtns() {
 		page_btns.innerHTML = add
 	}
 }
-function EditTaleName(name){data["tale_name"]=name}
+function EditTaleName(name){data["tale_name"]=name;	window.onbeforeunload = function() {return false;}}
 
 function DeletePage(id){
 	var pre_page = document.getElementById(id)
@@ -136,6 +136,7 @@ function AddPage(id){
 	new_page += '</div><div style="height: 25vh"><div class="w3-margin-right w3-margin-left w3-text-grey w3-row w3-large next_buttons" style="text-align: left"></div></div></div>';
 	pre_page.insertAdjacentHTML('afterend', new_page);
 	LoadNextBtns()
+	window.onbeforeunload = function() {return false;}
 }
 
 function UpdateNextB(id){
@@ -150,6 +151,7 @@ function UpdateNextB(id){
 	data['tale'][i]['next_arr'][0] = page_btns[0].getElementsByTagName('select')[0].value
 	data['tale'][i]['next_text'][1] = page_btns[1].getElementsByTagName('input')[0].value
 	data['tale'][i]['next_arr'][1] = page_btns[1].getElementsByTagName('select')[0].value
+	window.onbeforeunload = function() {return false;}
 }
 function UpdateMedia(id,type){
 	document.getElementById("loading").style.display="block";
@@ -241,7 +243,7 @@ function UpdateMedia(id,type){
 			}
 			break;
 	}
-	
+	window.onbeforeunload = function() {return false;}
 }
 function UpdateText(id) {
 	var textarea = document.getElementById(id).getElementsByTagName('textarea')[0]
@@ -251,12 +253,13 @@ function UpdateText(id) {
 			break;
 		}
 	}
+	window.onbeforeunload = function() {return false;}
 }
 function size_alert(id) {
 	var sizealert = document.getElementById(id).getElementsByClassName('size_alert')[0]
 	sizealert.innerHTML = 'Cannot Upload File (Max File Size 1 MB)'
 }
-function SaveTale(toggle){
+function SaveTale(hidden){
 	document.getElementById("loading").style.display="block";
 	var u_name = ''
 	if ((window.localStorage.getItem("Snow_Globe_User_ID"))==null) {
@@ -284,8 +287,8 @@ function SaveTale(toggle){
 		}
 	}
 	data2save['tale'] = JSON.stringify(data2save['tale'])
-	data2save['hidden']=toggle
-	data['hidden']=toggle
+	data2save['hidden']=hidden
+	data['hidden']=hidden
 
 	const queryString = window.location.search;
 	const urlParams = new URLSearchParams(queryString);
@@ -303,11 +306,15 @@ function SaveTale(toggle){
 				return
 			} else {
 				window.onbeforeunload = function() {return null;}
-				urlParams.set('tale', ret_data);
-				window.location.search = urlParams;
-				tale = ret_data
+				if(tale==null){
+					urlParams.set('tale', ret_data);
+					window.location.search = urlParams;
+					tale = ret_data
+				}
 				document.getElementById("loading").style.display="none";
-				window.onbeforeunload = function() {return false;}
+				if(hidden == false){
+					Share(tale)					
+				}
 			}
 		} else {
 			error('Server Error','Our Team is working on fixing it.');
@@ -365,6 +372,4 @@ function Load_Page(){
 		InitialRender()
 		LoadNextBtns()
 	}
-
-	window.onbeforeunload = function() {return false;}
 }

@@ -50,6 +50,10 @@ function CheckMail(inp) {
 
 function CheckUname(inp) {
 	var e_disp = document.getElementById("name_e")
+	if (inp.value.match(/^[0-9a-zA-Z]+$/)!=true){
+		e_disp.innerHTML = "Username can only contain alphabets and numbers."
+		return	
+	}
 	var ourRequest = new XMLHttpRequest();
 	ourRequest.open('POST', 'https://api-snowglobe.herokuapp.com/CheckUname/');
 	ourRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");

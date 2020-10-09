@@ -14,24 +14,20 @@ function LoadProfile(data) {
 	} else {
 		f_button.innerHTML = "Follow +"
 	}
-
 	if(data["me"]){
 		f_button.innerHTML = "Settings"
 	}
 	n_tales.innerHTML = data["tales"].length
 	var tales_html = ''
 	for (var i = 0; i < data["tales"].length; i++) {
-		if(data['tales'][i]['hidden']==true && data['me']){
-			tales_html += '<div class="w3-card w3-padding w3-round-large w3-black w3-margin"><a class="w3-large" href="reader.html?tale='+data["tales"][i]["token"]+'">'+data["tales"][i]["name"]+'<span class="w3-text-grey w3-medium"> (hidden)</span>'
-		} else {
-			tales_html += '<div class="w3-card w3-padding w3-round-large w3-black w3-margin"><a class="w3-large" href="reader.html?tale='+data["tales"][i]["token"]+'">'+data["tales"][i]["name"]
+		tales_html += '<div class="w3-card w3-padding w3-round-large w3-black w3-margin"><a class="w3-large" href="index.html?tale='+data["tales"][i]["token"]+'">'+data["tales"][i]["name"]
+		if(data['tales'][i]['hidden']==true){
+			tales_html += '<span class="w3-text-grey w3-medium"> (hidden)</span>'
 		}
 		tales_html += '</a><br><span class="w3-small w3-text-grey" style="border:none;padding: 0px">'+data["tales"][i]["views"]+' views</span><span style="font-size: 15px;margin-left: 2px;margin-right: 2px;" class="w3-text-grey"><b> &#183; </b></span><span class="w3-small w3-text-grey" style="padding: 0px">'+data["tales"][i]["likes"]+' likes</span>'
+		tales_html += '<br><a onclick="Share(\''+data["tales"][i]["token"]+'\')"><i class="fa fa-share-alt w3-medium w3-margin-top w3-text-grey"></i> Share</a>'
 		if(data["me"]) {
-			tales_html += '<br><a href=""><i class="fa fa-share-alt w3-medium w3-margin-top w3-text-grey"></i> Share</a>'
 			tales_html+='<a href="create.html?tale='+data["tales"][i]["token"]+'"><i class="fa fa-pencil w3-medium w3-margin-left w3-margin-top w3-text-grey"></i> Edit</a>'
-		} else {
-			tales_html += '<br><a href=""><i class="fa fa-share-alt w3-medium w3-margin-top"></i> Share</a>'
 		}
 		
 		tales_html += '</div>'
@@ -76,4 +72,39 @@ function Load_Page(){
 			error('Server Error','Our Team is working on fixing it.')
 		}
 	}
+}
+function Follow(){
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+	var u_name = urlParams.get('user')
+	if( ((window.localStorage.getItem("Snow_Globe_User_ID")).split("|"))[0]==u_name || u_name == null){
+		error('Under Construction','This page is currently under Construction. It will be available for you soon.');
+		return
+	}
+	if(f_button.innerHTML = "Following") {
+		f_button.innerHTML = "Follow+"
+	} else {
+		f_button.innerHTML = "Following"
+	}
+	var ourRequest = new XMLHttpRequest();
+	ourRequest.open('POST', 'https://api-snowglobe.herokuapp.com/Follow/');
+	ourRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	ourRequest.send(JSON.stringify({'u_name':u_name,'token':window.localStorage.getItem("Snow_Globe_User_ID")}));
+	ourRequest.onload = function() {
+		if (ourRequest.status >= 200 && ourRequest.status < 400) {
+			var ret_data = JSON.parse(ourRequest.responseText);
+			if(ret_data=="BadLogin" || ret_data==false){
+				window.location.href = "entry.html"
+				return
+			}
+		} else {
+			error('Server Error','Our Team is working on fixing it.');
+			if(f_button.innerHTML = "Following") {
+				f_button.innerHTML = "Follow+"
+			} else {
+				f_button.innerHTML = "Following"
+			}
+			return
+		}
+	}	
 }

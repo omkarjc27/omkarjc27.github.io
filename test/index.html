@@ -36,8 +36,11 @@
 						
 						<span id="tale_name" class="w3-medium w3-text-white"></span>
 						
-						<a class="w3-button w3-right w3-xlarge w3-hover-black" style="padding: 0px">
+						<a class="w3-button w3-right w3-xlarge w3-hover-black" style="padding: 0px" onclick="Like()">
 							<i id="tale_like" class="fa fa-heart-o"></i>
+						</a>
+						<a id="tale_share" class="w3-button w3-right w3-xlarge w3-hover-black" style="padding: 0px 10px;">
+							<i class="fa fa-share-alt"></i>
 						</a>
 						<br>
 						<a id="tale_writer" class="w3-button w3-small w3-hover-black" style="border:none;padding: 0px"></a>
@@ -64,13 +67,14 @@
 				<!--Menu Bar Start-->
 				<div class="w3-padding" style="height:5vh;color: #c5c6c7;border-top:1px solid #1a1a1a">
 					<a class="w3-left nohov" href="search.html"><i class="fa fa-search"></i></a>
-					<a class="w3-center nohov" href="profile.html"><i class="fa fa-user-circle-o"></i></a>
-					<a class="w3-right nohov" href="create.html"><i class="fa fa-pencil"></i></a>
+					<a class="w3-center nohov" href="create.html"><i class="fa fa-pencil"></i></a>
+					<a class="w3-right nohov" href="profile.html"><i class="fa fa-user-circle"></i></a>
 				</div>
 				<!--Menu Bar End-->
 			</div>
 		</center>	
 	</body>
 	<script type="text/javascript" src="scripts/error.js"></script>
+	<script type="text/javascript" src="scripts/share.js"></script>
 	<script type="text/javascript" src="scripts/reader_script.js"></script>
 </html>

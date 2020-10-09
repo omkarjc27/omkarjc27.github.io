@@ -26,11 +26,11 @@
 				<div style="height:14vh;max-width: 500px">
 					<div class="back w3-padding" style="text-align: left;">
 						<input id="tale_name" type="text" placeholder="Tale Name" class="w3-input w3-medium w3-round-large" style="background-color:#1f2833;border: none;color:white" value="" onkeyup="EditTaleName(this.value);">
-						<button class="next-button w3-button w3-hover-black w3-small" style="width: 49%;" onclick="SaveTale(false)">
+						<button class="next-button w3-button w3-hover-black w3-small" style="width: 49%;" onclick="SaveTale(true)">
 							<i class="fa fa-save"></i> Save as Draft
 						</button>
 						<button class="next-button w3-button w3-hover-black w3-small" style="width: 49%;" onclick="SaveTale(false)">
-							<i class="fa fa-share-alt"></i> Share 
+							<i class="fa fa-share-alt"></i> Share to Public
 						</button>
 					</div>
 				</div>
@@ -47,13 +47,14 @@
 				<!--Menu Bar Start-->
 				<div class="w3-padding" style="height:5vh;color: #c5c6c7;border-top:1px solid #1a1a1a;max-width: 500px;">
 					<a class="w3-left nohov" href="search.html"><i class="fa fa-search"></i></a>
-					<a class="w3-center nohov" href="profile.html"><i class="fa fa-user-circle-o"></i></a>
-					<a class="w3-right nohov" href="create.html"><i class="fa fa-pencil"></i></a>
+					<a class="w3-center nohov" href="create.html"><i class="fa fa-pencil"></i></a>
+					<a class="w3-right nohov" href="profile.html"><i class="fa fa-user-circle"></i></a>
 				</div>
 				<!--Menu Bar End-->
 			</div>
 		</center>	
 	</body>
 	<script type="text/javascript" src="scripts/error.js"></script>
+	<script type="text/javascript" src="scripts/share.js"></script>
 	<script type="text/javascript" src="scripts/creator_script.js"></script>
 </html>

@@ -5,8 +5,6 @@ function error(head,message){
 }
 function Back(){
 	window.history.go(-1);
+	location.reload()
 	return false;
-}
-function Follow(){
-	
 }

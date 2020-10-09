@@ -6,7 +6,7 @@ function LoadResult(){
 	var op = '';
 	op+="<a class='typename'><b>Tales</b></a><br>"
 	for (var i = 0; i < data['tales'].length; i++) {
-		op+="<a class='item' href='reader.html?tale="+data['tales'][i]['token']+"'>"+data['tales'][i]['name']+"<span class='data'>"+data['tales'][i]['data']+" Likes</span></a><br>"		
+		op+="<a class='item' href='index.html?tale="+data['tales'][i]['token']+"'>"+data['tales'][i]['name']+"<span class='data'>"+data['tales'][i]['data']+" Likes</span></a><br>"		
 	}
 	if(data['tales'].length == 0){
 		op+="<a  class='data'><span>No Tales Found.</span></a><br>"

@@ -3,26 +3,21 @@ var tale_name = document.getElementById("tale_name");
 var tale_like = document.getElementById("tale_like");
 var tale_writer = document.getElementById("tale_writer");
 var tale_like = document.getElementById("tale_like");
+var tale_share = document.getElementById("tale_share");
 var tale_save = document.getElementById("tale_save");
 var page_media = document.getElementById("page_media");
 var next_buttons = document.getElementById("next_buttons");
 
-function renderTale() {
+function renderTale(tale) {
 	tale_name.innerHTML="<b>"+data["tale_name"]+"</b>";
 	tale_writer.innerHTML = "<b>"+data["tale_writer"]+"</b>";
 	tale_writer.href = "profile.html?user="+data["tale_writer"];
-	
 	if (data["tale_like"] == true){
 		tale_like.classList.remove("fa","fa-heart-o","w3-text-white");
 		tale_like.classList.add("fa","fa-heart","w3-text-red");
 	} else {
 		tale_like.classList.remove("fa","fa-heart","w3-text-red");	
 		tale_like.classList.add("fa","fa-heart-o","w3-text-white");
-	}
-	if (data["writer_following"] == true){
-		writer_following.innerHTML = "<b>Following</b>";
-	} else {
-		writer_following.innerHTML = "<b>Follow +</b>";
 	}
 }
 
@@ -93,8 +88,11 @@ function Load_Page(){
 				} else {
 					data = ret_data
 					data['tale']=JSON.parse(data['tale'])
-					renderTale();
+					renderTale(tale);
 					renderPage(0);
+					tale_share.addEventListener("click", function(){
+						Share(tale)
+					});
 				}
 			} else {
 				error('Server Error','Our Team is working on fixing it.');
@@ -105,4 +103,34 @@ function Load_Page(){
 		window.location.href = "search.html"
 		return	
 	}
+}
+function Like(){
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+	var tale = urlParams.get('tale')
+	if(tale == null){
+		error('Error 404','Tale you are searching is not available.');
+		return
+	}
+	tale_like.classList.toggle("fa-heart-o")
+	tale_like.classList.toggle("w3-text-white")
+	tale_like.classList.toggle("w3-text-red")
+	tale_like.classList.toggle("fa-heart")
+
+	var ourRequest = new XMLHttpRequest();
+	ourRequest.open('POST', 'https://api-snowglobe.herokuapp.com/Like/');
+	ourRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	ourRequest.send(JSON.stringify({'tale_token':tale,'token':window.localStorage.getItem("Snow_Globe_User_ID")}));
+	ourRequest.onload = function() {
+		if (ourRequest.status >= 200 && ourRequest.status < 400) {
+			var ret_data = JSON.parse(ourRequest.responseText);
+			if(ret_data=="BadLogin" || ret_data==false){
+				window.location.href = "entry.html"
+				return
+			}
+		} else {
+			error('Server Error','Our Team is working on fixing it.');
+			return
+		}
+	}	
 }
