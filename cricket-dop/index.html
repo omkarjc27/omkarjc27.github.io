@@ -17,7 +17,7 @@ function handleFiles() {
 	file = fileList[0]
 
 	var ourRequest = new XMLHttpRequest();
-	ourRequest.open('POST', 'https://dop-api.herokuapp.com/predict/');
+	ourRequest.open('POST', 'https://dop-api.herokuapp.com/asd/');
 	ourRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
 	ourRequest.send(JSON.stringify({"file": file}));
